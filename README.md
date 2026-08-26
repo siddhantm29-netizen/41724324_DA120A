@@ -56,51 +56,16 @@ unzip hourly-energy-consumption.zip -d data/
 
 ---
 
-## 🗂️ Project Structure
-
-```
-41724324_DA120A/
-│
-├── data/
-│   └── PJME_hourly.csv              # Raw dataset (download from Kaggle)
-│
-├── notebooks/
-│   ├── 01_eda.ipynb                 # Exploratory Data Analysis
-│   ├── 02_feature_engineering.ipynb # Feature creation & transformation
-│   ├── 03_baseline_models.ipynb     # Naïve & SARIMA models
-│   ├── 04_ml_models.ipynb           # XGBoost & LightGBM
-│   ├── 05_prophet.ipynb             # Facebook Prophet
-│   └── 06_evaluation_shap.ipynb     # Model comparison & SHAP explainability
-│
-├── src/
-│   ├── data_loader.py               # Data loading & cleaning utilities
-│   ├── features.py                  # Feature engineering functions
-│   ├── models.py                    # Model training wrappers
-│   ├── evaluate.py                  # Evaluation metrics (MAE, RMSE, MAPE)
-│   └── utils.py                     # Helper functions & plotting
-│
-├── dashboard/
-│   └── app.py                       # Streamlit interactive dashboard
-│
-├── reports/
-│   └── figures/                     # Saved plots and charts
-│
-├── requirements.txt                 # Python dependencies
-└── README.md                        # Project documentation
-```
-
----
-
 ## 🔬 Methodology
 
-### Step 1 — Data Preprocessing & EDA
+### Step 1 — Data Preprocessing & EDA (In-progress)
 - Parse datetime index and sort chronologically
 - Detect and impute missing timestamps via forward-fill
 - Remove duplicate entries
 - Plot raw series, STL decomposition (trend + seasonality + residual)
 - Visualise hourly and monthly heatmaps
 
-### Step 2 — Feature Engineering
+### Step 2 — Feature Engineering (In-progress)
 
 | Feature Type | Features Created |
 |---|---|
@@ -108,44 +73,6 @@ unzip hourly-energy-consumption.zip -d data/
 | **Holiday** | `is_us_holiday` (via `holidays` library) |
 | **Lag** | `lag_24h`, `lag_48h`, `lag_168h` (1 week ago) |
 | **Rolling stats** | `rolling_7d_mean`, `rolling_7d_std`, `rolling_30d_mean` |
-
-### Step 3 — Models
-
-| Model | Library | Purpose |
-|---|---|---|
-| **Naïve Seasonal** | `numpy` | Baseline (last week same hour) |
-| **SARIMA** | `statsmodels` | Classical statistical baseline |
-| **XGBoost** | `xgboost` | Gradient boosting on tabular features |
-| **LightGBM** | `lightgbm` | Fast gradient boosting (primary ML model) |
-| **Prophet** | `prophet` | Probabilistic model with holiday support |
-
-### Step 4 — Train / Test Split
-
-```
-|--- Training (2002–2016) ---|-- Validation (2017) --|-- Test (2018) --|
-```
-
-Walk-forward cross-validation is used to prevent temporal data leakage.
-
-### Step 5 — Evaluation Metrics
-
-| Metric | Formula | Meaning |
-|---|---|---|
-| **MAE** | Mean of absolute errors | Average error in MW |
-| **RMSE** | Square root of mean squared errors | Penalises large errors |
-| **MAPE** | Mean absolute percentage error | Relative accuracy (%) |
-
-### Step 6 — Explainability (SHAP)
-- SHAP TreeExplainer applied to the best-performing model
-- Outputs: feature importance bar chart, dependence plots, force plots
-
-### Step 7 — Dashboard (Streamlit)
-- Interactive date range selector
-- Actual vs. predicted energy consumption plot
-- SHAP feature importance visualisation
-- Model comparison summary table
-
----
 
 ## 🛠️ Tech Stack
 
@@ -188,23 +115,6 @@ unzip hourly-energy-consumption.zip -d data/
 # 6. Launch dashboard
 streamlit run dashboard/app.py
 ```
-
----
-
-## 📊 Results Summary
-
-> *(To be completed after model training)*
-
-| Model | MAE | RMSE | MAPE |
-|---|---|---|---|
-| Naïve Seasonal | — | — | — |
-| SARIMA | — | — | — |
-| XGBoost | — | — | — |
-| LightGBM | — | — | — |
-| Prophet | — | — | — |
-
----
-
 ## 📄 License
 
 This project is for academic purposes. The dataset is licensed under **CC0: Public Domain**.
