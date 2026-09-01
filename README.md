@@ -17,10 +17,6 @@ compares them and explains the best-performing model with SHAP.
 statistical baselines in forecasting hourly electricity demand, and which features drive
 prediction accuracy?
 
-> **Scope note:** Deep learning models (LSTM, Temporal Fusion Transformer) were evaluated for
-> scope and excluded. This project benchmarks classical statistical and gradient boosting
-> approaches only.
-
 ## Dataset
 
 - **Source:** [Kaggle — robikscube/hourly-energy-consumption](https://www.kaggle.com/datasets/robikscube/hourly-energy-consumption) (CC0 Public Domain)
@@ -134,8 +130,6 @@ Actual results on the held-out final 12 months (Aug 2017 – Aug 2018), ranked b
 - SHAP identifies `lag_24h` (yesterday's same-hour load) as the dominant driver of predictions,
   followed by day-of-week and hour-of-day.
 
-Full tables, charts, and SHAP plots are in `energy_forecasting_modelling.ipynb` (Sections 7–9)
-and summarized in `energy_forecasting_presentation.pptx`.
 
 ## License
 
