@@ -28,13 +28,18 @@ MODEL_PATH = "xgb_pjme_model.pkl"
 @st.cache_data
 def load_data(path):
     df = pd.read_csv(path, index_col=0)
-    # The index is stored as a plain integer YYYYMMDD (no time component).
-    # All 24 hourly rows for the same day would get the same timestamp,
-    # creating duplicate indices that break label-based slicing.
-    # Reconstruct the proper per-hour datetime using the 'hour' column.
-    dates = pd.to_datetime(df.index.astype(str), format="%Y%m%d", errors="coerce")
-    df.index = dates + pd.to_timedelta(df["hour"], unit="h")
+    # Handle both CSV formats:
+    #  - Old format: YYYYMMDD integer index (no time), hour stored in 'hour' column
+    #  - New format: ISO datetime string (2002-01-08 01:00:00)
+    idx = pd.to_datetime(df.index, errors="coerce")
+    nat_count = idx.isna().sum()
+    if nat_count > 0 and "hour" in df.columns:
+        # Old YYYYMMDD format — rebuild full hourly timestamp from date + hour
+        dates = pd.to_datetime(df.index.astype(str), format="%Y%m%d", errors="coerce")
+        idx = dates + pd.to_timedelta(df["hour"], unit="h")
+    df.index = idx
     df.index.name = "Datetime"
+    df = df[df.index.notna()]   # drop any rows that couldn't be parsed
     df = df.sort_index()
     return df
 
