@@ -27,7 +27,10 @@ MODEL_PATH = "xgb_pjme_model.pkl"
 
 @st.cache_data
 def load_data(path):
-    df = pd.read_csv(path, index_col=0, parse_dates=True)
+    df = pd.read_csv(path, index_col=0)
+    # The index may be saved as a plain integer (YYYYMMDD) rather than a
+    # datetime string, so parse_dates=True won't work.  Convert explicitly.
+    df.index = pd.to_datetime(df.index, format="%Y%m%d", errors="coerce")
     df.index.name = "Datetime"
     return df
 
