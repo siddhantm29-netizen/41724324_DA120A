@@ -82,7 +82,7 @@ if len(date_range) == 2:
 else:
     start_date, end_date = min_date, max_date
 
-view = df.loc[str(start_date):str(end_date)]
+view = df.loc[(df.index.date >= start_date) & (df.index.date <= end_date)]
 
 show_predictions = st.sidebar.checkbox("Show model predictions", value=model_loaded, disabled=not model_loaded)
 show_anomalies = st.sidebar.checkbox("Highlight potential anomalies (|rolling z| > 4)", value=False)
