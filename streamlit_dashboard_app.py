@@ -32,6 +32,7 @@ def load_data(path):
     # datetime string, so parse_dates=True won't work.  Convert explicitly.
     df.index = pd.to_datetime(df.index, format="%Y%m%d", errors="coerce")
     df.index.name = "Datetime"
+    df = df.sort_index()          # must be monotonic for label-based slicing
     return df
 
 
