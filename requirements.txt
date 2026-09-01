@@ -5,3 +5,7 @@ plotly
 joblib
 xgboost
 scikit-learn
+lightgbm
+prophet
+shap
+statsmodels
